@@ -3,6 +3,16 @@ import { expressjwt } from "express-jwt";
 import User from "../models/user.model.js";
 import config from "../../config/config.js";
 
+const signup = async (req, res) => {
+  const user = new User(req.body);
+  try {
+    await user.save();
+    return res.status(200).json({ message: "Signup successful!" });
+  } catch (err) {
+    return res.status(400).json({ error: "Signup failed", details: err.message });
+  }
+};
+
 const signin = async (req, res) => {
   try {
     let user = await User.findOne({ email: req.body.email });
@@ -38,4 +48,9 @@ const requireSignin = expressjwt({
   userProperty: "auth",
 });
 
-export default { signin, signout, requireSignin };
+export default {
+  signin,
+  signout,
+  signup,
+  requireSignin
+};

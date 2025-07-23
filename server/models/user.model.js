@@ -6,11 +6,16 @@ const UserSchema = new mongoose.Schema({
     trim: true,
     required: "Name is required",
   },
+  role: {
+  type: String,
+  default: "user",
+  enum: ["user", "admin"]
+},
   email: {
     type: String,
     trim: true,
     unique: "Email already exists",
-    match: [/.+\@.+\..+/, "Please fill a valid email address"],
+    match: [/.+@.+\..+/, "Please fill a valid email address"],
     required: "Email is required",
   },
   created: {
